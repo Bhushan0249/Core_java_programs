@@ -1,0 +1,222 @@
+package JDBC;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.Scanner;
+
+public class CRUD_Oper {
+// create the JDBC crud operations......
+
+	private static String Driver = "com.mysql.jdbc.Driver";
+	private static String url = "jdbc:mysql://localhost:3306/bhushan";
+	private static String user = "root";
+	private static String password = "bhushan";
+	static Scanner s = new Scanner(System.in);
+
+// database name : bhushan;
+// table name : bhu;
+//column name : id auto increment AND name AND email AND age;
+
+
+	private static void insert() throws Exception {
+
+		Class.forName(Driver);
+		Connection c = DriverManager.getConnection(url, user, password);
+
+		String query = "insert into bhu (name,email,age) values (?,?,?)";
+
+		PreparedStatement ps = c.prepareStatement(query);
+		System.out.println("Enter Name......");
+		String name = s.next();
+		ps.setString(1, name);
+
+		System.out.println("Enter Email......");
+		String email = s.next();
+		ps.setString(2, email);
+
+		System.out.println("Enter age......");
+		int age = s.nextInt();
+		ps.setInt(3, age);
+
+		int n = ps.executeUpdate();
+
+		if (n > 0) {
+			System.out.println("Data Inserted Successfully....");
+		} else {
+			System.out.println("Deo To Some Error......");
+		}
+
+	}
+
+	private static void update() throws Exception {
+
+		Class.forName(Driver);
+		Connection c = DriverManager.getConnection(url, user, password);
+
+		String query = "update bhu set name=? , email=?,age=? where id=?";
+
+		PreparedStatement ps = c.prepareStatement(query);
+
+		System.out.println("Enter  new Name......");
+		String name = s.next();
+		ps.setString(1, name);
+
+		System.out.println("Enter  new Email......");
+		String email = s.next();
+		ps.setString(2, email);
+
+		System.out.println("Enter  New age......");
+		int age = s.nextInt();
+		ps.setInt(3, age);
+
+		System.out.println("Enter  old id......");
+		int id = s.nextInt();
+		ps.setInt(4, id);
+
+		int n = ps.executeUpdate();
+
+		if (n > 0) {
+			System.out.println("Data Updated Successfully....");
+		} else {
+			System.out.println("Deo To Some Error.....");
+
+		}
+
+	}
+
+	private static void delete() throws Exception {
+
+		Class.forName(Driver);
+
+		Connection c = DriverManager.getConnection(url, user, password);
+
+		String query = "delete from bhu where id=?";
+
+		PreparedStatement ps = c.prepareStatement(query);
+
+		System.out.println("Enter id......");
+		int id = s.nextInt();
+		ps.setInt(1, id);
+
+		int n = ps.executeUpdate();
+
+		if (n > 0) {
+			System.out.println("Data Deleted Successfully.....");
+		} else {
+			System.out.println("Deo To Some Error.....");
+		}
+
+	}
+
+	private static void getByAge() throws Exception {
+
+		Class.forName(Driver);
+
+		Connection c = DriverManager.getConnection(url, user, password);
+
+		String query = "select * from bhu where id=?";
+
+		PreparedStatement ps = c.prepareStatement(query);
+
+		System.out.println("Enter the id......");
+		int id = s.nextInt();
+		ps.setInt(1, id);
+
+		ResultSet rs = ps.executeQuery();
+
+// it,s get only one data . match with age.
+
+		while (rs.next()) {
+
+			id = rs.getInt("id");
+			String name = rs.getString("name");
+			String email = rs.getString("email");
+			int age = rs.getInt("age");
+
+			System.out.println("Id is: " + id + " Name is: " + name + " E-mail is: " + email + " and Age is: " + age);
+		}
+
+	}
+
+	private static void getAll() throws Exception {
+
+		Class.forName(Driver);
+		Connection c = DriverManager.getConnection(url, user, password);
+
+		String query = "select * from bhu";
+
+		PreparedStatement ps = c.prepareStatement(query);
+
+		ResultSet rs = ps.executeQuery();
+
+		while (rs.next()) {
+
+			int id = rs.getInt("id");
+			String name = rs.getString("name");
+			String email = rs.getString("email");
+			int age = rs.getInt("age");
+
+			System.out.println("ID is: " + id + " Name is: " + name + " E-mail is: " + email + " and Age is: " + age);
+		}
+
+	}
+
+	private static void Exits() {
+
+		System.out.println("Thank You  For Using CRUD operaton....");
+	}
+
+	public static void main(String[] args) throws Exception {
+
+		Scanner s = new Scanner(System.in);
+
+		while (true) {
+			System.out.println("Enter the value.....");
+
+			System.out.println(" 1       insert data");
+			System.out.println(" 2       update data ");
+			System.out.println(" 3       delete data  ");
+			System.out.println(" 4       get by age    ");
+			System.out.println(" 5       get All     ");
+			System.out.println(" 0       Exits     ");
+
+			int num = s.nextInt();
+
+			switch (num) {
+
+			case 1:
+				CRUD_Oper.insert();
+				break;
+
+			case 2:
+				CRUD_Oper.update();
+				break;
+
+			case 3:
+				CRUD_Oper.delete();
+				break;
+
+			case 4:
+				CRUD_Oper.getByAge();
+				break;
+
+			case 5:
+				CRUD_Oper.getAll();
+				break;
+
+			case 0:
+				CRUD_Oper.Exits();
+				s.close();
+				return;
+
+			default:
+				System.out.println("Default Value..Try again....");
+			}
+
+		}
+
+	}
+
+}
