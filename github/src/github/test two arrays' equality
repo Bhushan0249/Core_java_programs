@@ -1,0 +1,32 @@
+
+import java.util.Arrays;
+
+public class Task {
+
+	// Write a Java program to test two arrays' equality.
+
+	private static String equality(int arr1[], int arr2[]) {
+
+		Arrays.sort(arr1);
+		Arrays.sort(arr2);
+
+		boolean bhu = Arrays.equals(arr1, arr2);
+
+		if (bhu) {
+			return "to array are equals...";
+		} else {
+			return "to array NOT equlas.....";
+		}
+
+	}
+
+	public static void main(String[] args) {
+
+		int arr1[] = { 3, 4, 5, 6, 7, 8, 9 };
+		int arr2[] = { 7, 8, 9, 4, 5, 6, 3 };
+
+		String bhu = Task.equality(arr1, arr2);
+		System.out.println(bhu);
+	}
+
+}
