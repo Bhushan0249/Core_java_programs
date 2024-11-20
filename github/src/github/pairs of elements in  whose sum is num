@@ -1,0 +1,28 @@
+
+public class Task {
+
+	// Write a Java program to find all pairs of elements in an array whose sum is
+	// equal to a specified number.
+
+	private static void pairs_value(int arr[], int number) {
+
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = i + 1; j < arr.length; j++) {
+				if (arr[i] + arr[j] == number) {
+
+					System.out.println(arr[i] + " + " + arr[j] + " = " + number);
+				}
+			}
+		}
+	}
+
+	public static void main(String[] args) {
+
+		int arr[] = { 2, 7, 4, -6, 11, 5, 20 };
+		int num = 15;
+       // method call.
+		pairs_value(arr, num);
+
+	}
+
+}
